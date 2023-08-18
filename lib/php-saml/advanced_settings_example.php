@@ -91,6 +91,12 @@ $advancedSettings = array(
         // will be accepted.
         'destinationStrictlyMatches' => false,
 
+        // if true, the current URL with http is also expected
+        // this is useful when GLPI runs behind a reverse proxy and the requests are coming over HTTP
+        // but the destination in SAML2 Response is https
+        // defaults to false to preserve backward compatibility
+        'destinationInsecure' => false,
+
         // If true, the toolkit will not raised an error when the Statement Element
         // contain atribute elements with name duplicated
         'allowRepeatAttributeName' => false,

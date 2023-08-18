@@ -281,6 +281,9 @@ class Response
                             );
                         }
                     } else {
+                        if (strpos($currentURL, "http://") !== false && $security['destinationInsecure']) {
+                            $currentURL = str_replace("http://", "https://", $currentURL);
+                        }
                         $urlComparisonLength = $security['destinationStrictlyMatches'] ? strlen($destination) : strlen($currentURL);
                         if (strncmp($destination, $currentURL, $urlComparisonLength) !== 0) {
                             $currentURLNoRouted = Utils::getSelfURLNoQuery();

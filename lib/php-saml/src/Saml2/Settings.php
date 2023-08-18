@@ -397,6 +397,11 @@ class Settings
             $this->_security['destinationStrictlyMatches'] = false;
         }
 
+        // Response URL transport protocol
+        if (!isset($this->_security['destinationInsecure'])) {
+            $this->_security['destinationInsecure'] = false;
+        }
+
         // Allow duplicated Attribute Names
         if (!isset($this->_security['allowRepeatAttributeName'])) {
             $this->_security['allowRepeatAttributeName'] = false;
