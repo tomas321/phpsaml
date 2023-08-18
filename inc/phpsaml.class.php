@@ -315,6 +315,7 @@ class PluginPhpsamlPhpsaml
 
 			// Security settings
 			'security' => array (
+                'destinationInsecure' => true,
 
 				/** signatures and encryptions offered */
 
