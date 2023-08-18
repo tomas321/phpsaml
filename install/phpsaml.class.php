@@ -265,6 +265,7 @@ class PluginPhpsamlPhpsaml
 
 			// Security settings
 			'security' => array (
+				'destinationInsecure' => (isset($config['saml_security_destination_insecure']) && $config['saml_security_destination_insecure'] == 1 ? true : false),
 
 				/** signatures and encryptions offered */
 

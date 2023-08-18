@@ -337,7 +337,7 @@ class PluginPhpsamlConfig extends CommonDBTM {
 					</select>	
 					<input id="requested-authn-context" type="hidden" name="requested_authn_context" value="<?php echo (isset($config["requested_authn_context"])) ? $config["requested_authn_context"] : '' ?>" />
 				</p>
-				<p class="full-width">
+				<p>
 					<label for="requested_authn_context_comparison">
 						<?php echo __("Requested Authn Comparison", "phpsaml"); ?>
 						<i class="pointer fa fa-info" title="<?php echo __("How should the library compare the requested Authn Context?  The value defaults to 'Exact'.", "phpsaml"); ?>"></i>
@@ -403,6 +403,20 @@ class PluginPhpsamlConfig extends CommonDBTM {
 					<select name="saml_security_logoutresponsesigned">
 						<option value="1" <?php echo ((isset($config["saml_security_logoutresponsesigned"]) && $config["saml_security_logoutresponsesigned"] == 1) ? "selected" : ""); ?>>Yes</option>
 						<option value="0" <?php echo ((isset($config["saml_security_logoutresponsesigned"]) && $config["saml_security_logoutresponsesigned"] == 0) || !isset($config["saml_security_logoutresponsesigned"]) ? "selected" : ""); ?>>No</option>
+					</select>
+				</p>
+				<p>
+					<label for="saml_security_destination_insecure">
+						<?php echo __("Destination insecure", "phpsaml"); ?>
+						<i class="pointer fa fa-info" title="<?php echo __("This is useful when GLPI runs behind a reverse proxy and the requests are coming over HTTP but the destination in SAML2 Response is https", "phpsaml"); ?>"></i>
+					</label>
+					<?php
+						echo (isset($messages["errors"]["saml_security_destination_insecure"]) ? "<br /><small style='color:red; max-width:400px'>".__('Error: ', 'phpsaml').$messages["errors"]["saml_security_destination_insecure"]."<br /></small>" : "");
+						echo (isset($messages["warnings"]["saml_security_destination_insecure"]) ? "<br /><small style='color:orange; max-width:400px'>".__('Warning: ', 'phpsaml').$messages["warnings"]["saml_security_destination_insecure"]."<br /></small>" : "");
+					?>
+					<select name="saml_security_destination_insecure">
+						<option value="1" <?php echo ((isset($config["saml_security_destination_insecure"]) && $config["saml_security_destination_insecure"] == 1) ? "selected" : ""); ?>>Yes</option>
+						<option value="0" <?php echo ((isset($config["saml_security_destination_insecure"]) && $config["saml_security_destination_insecure"] == 0) || !isset($config["saml_security_destination_insecure"]) ? "selected" : ""); ?>>No</option>
 					</select>
 				</p>
 				
@@ -506,7 +520,8 @@ class PluginPhpsamlConfig extends CommonDBTM {
 				"saml_security_nameidencrypted" 		=> $phpsamlconf->fields["saml_security_nameidencrypted"],
 				"saml_security_authnrequestssigned" 		=> $phpsamlconf->fields["saml_security_authnrequestssigned"],
 				"saml_security_logoutrequestsigned" 		=> $phpsamlconf->fields["saml_security_logoutrequestsigned"],
-				"saml_security_logoutresponsesigned" 		=> $phpsamlconf->fields["saml_security_logoutresponsesigned"]
+				"saml_security_logoutresponsesigned" 		=> $phpsamlconf->fields["saml_security_logoutresponsesigned"],
+				"saml_security_destination_insecure"		=> $phpsamlconf->fields["saml_security_destination_insecure"]
 			);
 		} else {
 			$config = array();

@@ -53,6 +53,8 @@ class PluginPhpsamlUpdate {
 		self::do_120();
 		
 		self::do_121();
+
+		self::do_130();
 		
 	}
 	
@@ -261,5 +263,28 @@ class PluginPhpsamlUpdate {
 			Toolbox::logInFile("phpsaml", "INFO -- PHPSAML upgraded to 1.2.1" . "\n", true);
 		}
 	}
+
+    public static function do_130(){
+		global $DB;
+
+		Toolbox::logInFile("phpsaml", "INFO -- Checking Settings and Upgrading to 1.3.0 if necessary"  . "\n", true);
+
+		if(self::$installed_version < '1.3.0'){
+			//Check for saml_security_destination_insecure column
+			$query = "SHOW COLUMNS FROM `glpi_plugin_phpsaml_configs` LIKE 'saml_security_destination_insecure'";
+			$result = $DB->query($query);
+			//Alter table if 'saml_security_destination_insecure' column is missing
+			if (!$result || $DB->numrows($result) == 0){
+				$query = "ALTER TABLE `glpi_plugin_phpsaml_configs` ADD saml_security_destination_insecure int(2) after saml_security_logoutresponsesigned";
+				$DB->query($query);
+				if ($DB->error()) Toolbox::logInFile("php-errors", $DB->error()  . "\n", true);
+				if (!$DB->error()) Toolbox::logInFile("phpsaml", "INFO -- Column 'saml_security_destination_insecure' added to 'glpi_plugin_phpsaml_configs'" . "\n", true);
+			}
+
+			self::set_installed_version("1.3.0");
+			Toolbox::logInFile("phpsaml", "INFO -- PHPSAML upgraded to 1.3.0" . "\n", true);
+		}
+	}
+
 }
 ?>
